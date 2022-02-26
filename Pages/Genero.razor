@@ -1,0 +1,52 @@
+@page "/genero"
+
+<PageTitle>Géneros</PageTitle>
+
+@using PeliculaenBlazor.Data
+@inject WeatherForecastService ForecastService
+
+<h1>Generos de peliculas</h1>
+
+
+@if (forecasts == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Terror</th>
+                <th>Comedia</th>
+                <th>Drama</th>
+                <th>Suspenso</th>
+                <th>Acción</th>
+                <th>Ciencia y ficción</th>
+                <th>Fantasía</th>
+                <th>Muical</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var forecast in forecasts)
+            {
+                <tr>
+                    <td>@forecast.Date.ToShortDateString()</td>
+                    <td>@forecast.TemperatureC</td>
+                    <td>@forecast.TemperatureF</td>
+                    <td>@forecast.Summary</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private WeatherForecast[]? forecasts;
+
+    protected override async Task OnInitializedAsync()
+    {
+        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+    }
+}
